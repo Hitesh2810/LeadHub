@@ -19,12 +19,20 @@ const SettingsPage = () => {
   const { toast } = useToast();
   const [templates, setTemplates] = useState<EmailTemplates>(EMPTY_TEMPLATES);
 
-  const { data: currentUserAccess, isLoading: isAccessLoading } = useQuery({
+  const {
+    data: currentUserAccess,
+    isLoading: isAccessLoading,
+    isError: isAccessError,
+  } = useQuery({
     queryKey: ["current-user-access"],
     queryFn: fetchCurrentUserAccess,
   });
 
-  const { data: emailTemplates, isLoading: isTemplatesLoading } = useQuery({
+  const {
+    data: emailTemplates,
+    isLoading: isTemplatesLoading,
+    isError: isTemplatesError,
+  } = useQuery({
     queryKey: ["email-templates"],
     queryFn: fetchEmailTemplates,
     enabled: currentUserAccess?.isAdmin === true,
@@ -63,6 +71,15 @@ const SettingsPage = () => {
     );
   }
 
+  if (isAccessError) {
+    return (
+      <div className="space-y-4">
+        <h1 className="text-2xl font-bold tracking-tight md:text-3xl">Settings</h1>
+        <p className="text-muted-foreground">Starting server... please wait</p>
+      </div>
+    );
+  }
+
   if (!currentUserAccess?.isAdmin) {
     return (
       <div className="space-y-4">
@@ -84,6 +101,12 @@ const SettingsPage = () => {
           <CardTitle>Email Templates</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
+          {isTemplatesError && (
+            <div className="rounded-lg border border-dashed px-4 py-6 text-center text-sm text-muted-foreground">
+              Starting server... please wait
+            </div>
+          )}
+
           <div className="space-y-2">
             <label className="text-sm font-medium" htmlFor="instantTemplate">
               Instant Follow-Up Template

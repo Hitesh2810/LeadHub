@@ -79,7 +79,6 @@ const Analytics = () => {
     data: leads = [],
     isLoading,
     isError,
-    error,
   } = useQuery({
     queryKey: ["leads"],
     queryFn: fetchLeads,
@@ -198,8 +197,8 @@ const Analytics = () => {
           Loading analytics data...
         </div>
       ) : isError ? (
-        <div className="flex h-40 items-center justify-center rounded-lg border border-dashed px-4 text-center text-sm text-destructive">
-          {error instanceof Error ? error.message : "Unable to load analytics data."}
+        <div className="flex h-40 items-center justify-center rounded-lg border border-dashed px-4 text-center text-sm text-muted-foreground">
+          Starting server... please wait
         </div>
       ) : (
         <>

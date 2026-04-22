@@ -41,7 +41,7 @@ const Leads = () => {
     queryKey: ["current-user-access"],
     queryFn: fetchCurrentUserAccess,
   });
-  const { data: leads = [], isLoading, isError, error } = useQuery({
+  const { data: leads = [], isLoading, isError } = useQuery({
     queryKey: ["leads"],
     queryFn: fetchLeads,
   });
@@ -177,8 +177,8 @@ const Leads = () => {
           Loading leads...
         </div>
       ) : isError ? (
-        <div className="flex h-40 items-center justify-center rounded-lg border border-dashed px-4 text-center text-sm text-destructive">
-          {error instanceof Error ? error.message : "Unable to load leads."}
+        <div className="flex h-40 items-center justify-center rounded-lg border border-dashed px-4 text-center text-sm text-muted-foreground">
+          Starting server... please wait
         </div>
       ) : (
       <>

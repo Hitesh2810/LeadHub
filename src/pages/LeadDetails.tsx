@@ -52,7 +52,7 @@ const LeadDetails = () => {
     queryKey: ["current-user-access"],
     queryFn: fetchCurrentUserAccess,
   });
-  const { data: leads = [], isLoading } = useQuery({
+  const { data: leads = [], isLoading, isError } = useQuery({
     queryKey: ["leads"],
     queryFn: fetchLeads,
   });
@@ -108,6 +108,14 @@ const LeadDetails = () => {
     return (
       <div className="flex flex-col items-center justify-center gap-4 py-20">
         <p className="text-muted-foreground">Loading lead...</p>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="flex flex-col items-center justify-center gap-4 py-20">
+        <p className="text-muted-foreground">Starting server... please wait</p>
       </div>
     );
   }

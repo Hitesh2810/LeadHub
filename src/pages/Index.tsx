@@ -32,7 +32,6 @@ const Index = () => {
     data: leads = [],
     isLoading: leadsLoading,
     isError: leadsError,
-    error: leadsQueryError,
   } = useQuery({
     queryKey: ["leads"],
     queryFn: fetchLeads,
@@ -41,7 +40,6 @@ const Index = () => {
     data: dashboard,
     isLoading: dashboardLoading,
     isError: dashboardError,
-    error: dashboardQueryError,
   } = useQuery({
     queryKey: ["dashboard"],
     queryFn: fetchDashboard,
@@ -168,12 +166,8 @@ const Index = () => {
       )}
 
       {(dashboardError || leadsError) && (
-        <div className="rounded-lg border border-dashed px-4 py-8 text-center text-sm text-destructive">
-          {dashboardQueryError instanceof Error
-            ? dashboardQueryError.message
-            : leadsQueryError instanceof Error
-              ? leadsQueryError.message
-              : "Unable to load dashboard data."}
+        <div className="rounded-lg border border-dashed px-4 py-8 text-center text-sm text-muted-foreground">
+          Starting server... please wait
         </div>
       )}
 

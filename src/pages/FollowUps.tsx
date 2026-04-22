@@ -21,12 +21,20 @@ import { fetchFollowUps, fetchLeads } from "@/lib/api";
 const FollowUps = () => {
   const navigate = useNavigate();
   const [statusFilter, setStatusFilter] = useState<"all" | "pending" | "overdue" | "completed">("all");
-  const { data: allFollowUps = [] } = useQuery({
+  const {
+    data: allFollowUps = [],
+    isLoading: followUpsLoading,
+    isError: followUpsError,
+  } = useQuery({
     queryKey: ["followups"],
     queryFn: fetchFollowUps,
     refetchInterval: 10000,
   });
-  const { data: leads = [] } = useQuery({
+  const {
+    data: leads = [],
+    isLoading: leadsLoading,
+    isError: leadsError,
+  } = useQuery({
     queryKey: ["leads"],
     queryFn: fetchLeads,
   });
@@ -109,6 +117,16 @@ const FollowUps = () => {
         </div>
       </div>
 
+      {followUpsLoading || leadsLoading ? (
+        <div className="flex h-40 items-center justify-center rounded-lg border border-dashed text-sm text-muted-foreground">
+          Loading follow-ups...
+        </div>
+      ) : followUpsError || leadsError ? (
+        <div className="flex h-40 items-center justify-center rounded-lg border border-dashed px-4 text-center text-sm text-muted-foreground">
+          Starting server... please wait
+        </div>
+      ) : (
+      <>
       {/* Summary cards */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {summaryCards.map((s, i) => (
@@ -162,6 +180,8 @@ const FollowUps = () => {
           leadBusinessUnitMap={leadBusinessUnitMap}
         />
       </div>
+      </>
+      )}
     </div>
   );
 };
