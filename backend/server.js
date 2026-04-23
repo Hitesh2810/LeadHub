@@ -41,6 +41,10 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 
+app.get("/", (req, res) => {
+  res.send("LeadHub Backend is running");
+});
+
 app.post("/api/test", (req, res) => {
   res.status(200).json({ message: "OK" });
 });
