@@ -1,6 +1,7 @@
 import type { BusinessUnit, Lead } from "@/types/lead";
 import { firebaseAuth } from "@/lib/firebase";
 import type { FollowUp } from "@/types/followUp";
+import { API_BASE_URL } from "@/config/api";
 
 export interface DashboardData {
   totalLeads: number;
@@ -67,7 +68,7 @@ const parseResponse = async <T>(response: Response): Promise<T> => {
 
 const fetchWithRetry = async <T>(url: string, init?: RequestInit): Promise<T> => {
   try {
-    const response = await fetch(url, init);
+    const response = await fetch(`${API_BASE_URL}${url}`, init);
 
     return parseResponse<T>(response);
   } catch (error) {
